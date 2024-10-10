@@ -11,6 +11,10 @@ There are two types of modes, each designed to gather specific information from 
 
 The Runtime Sensor is responsible for collecting runtime data, which, in the context of a Kubernetes environment, pertains to the container runtime. As such, it is installed on each cluster node and monitors the runtime behavior within the containers operating on that node. The Kubernetes Controller is responsible for gathering cluster-related information. Together, these modes offer comprehensive visibility into the user's cluster.
 
+{% hint style="info" %}
+A **Sensor** is a locally installed sensor, which is a middleware provided by JFrog and designated to be hosted by the customer in its production environment to interoperate with the Runtime service. The customer shall be solely responsible for (i) ensuring the Runtime service and Sensor have the necessary access to the customer’s production environment and (ii) ensuring compatibility of its production environment with the Runtime service and Sensor.
+{% endhint %}
+
 <figure><img src="../.gitbook/assets/Diagram2.png" alt=""><figcaption></figcaption></figure>
 
 ### &#x20;Runtime Sensor

@@ -9,6 +9,14 @@ The Live Assessment consists of the following:&#x20;
   * **Processes**: Processes are individual executable instances running within a workload. Each process operates within the context of its associated image and workload, and they can be grouped based on their executables, execution locations, command arguments, images, and other attributes. The [Processes table](processes-table.md) in the Live Assessment feature provides detailed views and vulnerability information about these processes, allowing for precise monitoring and risk management.
   * **Images**: [Images ](images.md)are packaged binary files that contain the necessary code, runtime, libraries, environment variables, and configuration files required to run applications. They are fundamental building blocks used to create containers in a runtime environment. Our Runtime Live Assessment allows users to trace these images back to their source in JFrog Artifactory, providing insights into their usage and associated vulnerabilities.
 
+{% hint style="info" %}
+**Data Retention**
+
+Note that the data displayed in the Lie Assessment is retained for 7 days. After the 7 days, this data is deleted.&#x20;
+{% endhint %}
+
+
+
 \
 
 
