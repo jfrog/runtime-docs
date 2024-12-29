@@ -12,7 +12,7 @@ The Live Assessment consists of the following:&#x20;
 {% hint style="info" %}
 **Data Retention**
 
-Note that the data displayed in the Live Assessment is retained for 7 days. After the 7 days, this data is deleted.&#x20;
+Note that the data displayed in the Live Assessment is retained for 10 days. After 10 days, this data is deleted.&#x20;
 {% endhint %}
 
 
