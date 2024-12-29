@@ -119,7 +119,7 @@
 
 Example request
 
-```
+```json
 {
   "limit": 1
 }
@@ -127,7 +127,7 @@ Example request
 
 Example request
 
-```
+```json
 {
   "limit": 1,
   "next_key": "1"
@@ -136,7 +136,7 @@ Example request
 
 Example request
 
-```
+```json
 {
   "filters": {
     "component": [
@@ -151,7 +151,7 @@ Example request
 
 Example request
 
-```
+```json
 {
   "filters": {
     "time_period": "now",
@@ -164,7 +164,7 @@ Example request
 
 Example request
 
-```
+```json
 {
   "filters": {
     "severity": [
@@ -177,7 +177,7 @@ Example request
 
 Example request
 
-```
+```json
 {
   "filters": {
     "risk": [
@@ -190,7 +190,7 @@ Example request
 
 Example request
 
-```
+```json
 {
   "filters": {
     "applicability": [
@@ -204,7 +204,7 @@ Example successful response
 
 `200 OK`
 
-```
+```json
 {
     "image_tags": [
         {
@@ -259,7 +259,7 @@ Example successful response
 
 `200 OK`
 
-```
+```json
 {
     "image_tags": [
         {
@@ -336,7 +336,7 @@ Example successful response
 
 `400 Bad Request`
 
-```
+```json
 {
     "message": "limit should be between 1 and 100"
 }

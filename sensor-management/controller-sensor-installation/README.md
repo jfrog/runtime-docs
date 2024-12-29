@@ -40,7 +40,15 @@ If you wish to disable the sensor, see [here](enable-disable-runtime-sensors..md
 
     ![](<../../.gitbook/assets/Screenshot 2024-09-03 at 16.01.03.png>) ![](<../../.gitbook/assets/Screenshot 2024-09-03 at 16.05.28.png>)
 
+### **Installation for OpenShift Users**
 
+If you are using OpenShift, after installing the Runtime sensor, you will need to run the following command to grant the necessary permissions:
+
+```
+oc adm policy add-scc-to-user privileged system:serviceaccount:jfrog-runtime:jf-sensors-sensors-service-accoun
+```
+
+This command ensures the Runtime Sensor has the appropriate security context to function correctly within your OpenShift environment.
 
 
 
