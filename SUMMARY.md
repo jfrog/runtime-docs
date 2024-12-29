@@ -22,3 +22,4 @@
 * [Runtime REST APIs](runtime-rest-apis/README.md)
   * [List Images Tags](runtime-rest-apis/list-images-tags.md)
   * [List Clusters](runtime-rest-apis/list-clusters.md)
+  * [List Workloads](runtime-rest-apis/list-workloads.md)
