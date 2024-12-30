@@ -4,7 +4,7 @@
 
 **Description:** List of Workloads
 
-**Security:**&#x20;
+**Security:** Requires a valid user with a "Read" permission
 
 **Usage:** `POST /runtime/api/v1/workloads`
 

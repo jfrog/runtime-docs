@@ -4,7 +4,7 @@
 
 **Description:** Retrieve a list of clusters configured by the user, optionally returning the associated nodes for each cluster based on user input.
 
-**Security:** Admin
+**Security:** Requires a valid user with a "Admin" permission
 
 **Usage:** `GET /runtime/api/v1/clusters/{id}`
 
