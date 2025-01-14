@@ -1,8 +1,9 @@
 # List Images Tags
 
 **Description:** Lists all image tags according to specified filters\
+**Note**: The API returns vulnerabilities only if the image comes from a trusted registry. Filters by CVE and by components will only return images from trusted registries.\
 **Security:** Requires a valid user with a "Read" permission\
-**Usage:** `GET /runtime/api/v1/images/tags`\
+**Usage:** POST `/runtime/api/v1/images/tags`\
 **Consumes:** `application/json`\
 **Produces:** `application/json`
 
@@ -19,19 +20,19 @@
 
 | Name            | Type                       | Required/Optional | Description                                                                                                                                                      |
 | --------------- | -------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `time_period`   |                            | optional          | Default: now Available options: now, 1 hour, 1 days, 3 days, 7 days                                                                                              |
+| `time_period`   | string                     | optional          | Default: now Available options: now, 1 hour, 24 hours, 3 days, 7 days, 10 days                                                                                   |
 | `cve_id`        | array\[string]             | optional          | CVE identifier                                                                                                                                                   |
-| `risk`          | array                      | optional          | Available filters: malicious, untrusted\_registry, integrity\_violation, critical\_applicable                                                                    |
+| `risk`          | array                      | optional          | Available filters: `malicious`, `untrusted_registry`, `integrity_violation`, `critical_applicable`                                                               |
 | `component`     | Array\[filterComponentObj] | optional          | You can only filter by the components of the image's vulnerabilities.                                                                                            |
 | `applicability` | array\[string]             | optional          | Contextual Analysis result. Possible values: `not_scanned`, `applicable`, `not_applicable`, `undetermined`, `rescan_required`, `upgrade_required`, `not_covered` |
 | `severity`      | array\[string]             | optional          | Severity level of the issue (e.g., "High")                                                                                                                       |
 
 **filterComponentObj:**
 
-| Name      | Type | Required/Optional | Description                                                   |
-| --------- | ---- | ----------------- | ------------------------------------------------------------- |
-| `name`    |      | optional          | Component name                                                |
-| `version` |      | optional          | Component version; if not provided, all versions are returned |
+| Name      | Type   | Required/Optional | Description                                                   |
+| --------- | ------ | ----------------- | ------------------------------------------------------------- |
+| `name`    | string | optional          | Component name                                                |
+| `version` | string | optional          | Component version; if not provided, all versions are returned |
 
 #### Response body
 
@@ -52,7 +53,7 @@
 
 | Name                 | Type                 | Description                                                                                       |
 | -------------------- | -------------------- | ------------------------------------------------------------------------------------------------- |
-| `image_name`         | string               | Image name                                                                                        |
+| `name`               | string               | Image name                                                                                        |
 | `tag`                | string               | Image tag                                                                                         |
 | `architecture`       | string               | The image architecture (e.g., "amd64")                                                            |
 | `registry`           | string               | The user environment (e.g., "jfrog.com")                                                          |
@@ -82,7 +83,7 @@
 | `applicability` | string               | Contextual Analysis result. Possible values: `not_scanned`, `applicable`, `not_applicable`, `undetermined`, `rescan_required`, `upgrade_required`, `not_covered` |
 | `components`    | array\[componentObj] | The components information                                                                                                                                       |
 
-**maliciousObj\*\*:\*\***
+**maliciousObj:**
 
 | Name         | Type                 | Description               |
 | ------------ | -------------------- | ------------------------- |
@@ -91,13 +92,13 @@
 
 **componentObj:**
 
-| Name           | Type | Required/Optional | Description                                                                                        |
-| -------------- | ---- | ----------------- | -------------------------------------------------------------------------------------------------- |
-| `component_id` |      | optional          | The component identifier in the Xray format (e.g., "gav://com.thoughtworks.xstream:xstream:1.4.5") |
-| `name`         |      | optional          | Component name                                                                                     |
-| `version`      |      | optional          | Component version                                                                                  |
+| Name           | Type   | Description                                                                                        |
+| -------------- | ------ | -------------------------------------------------------------------------------------------------- |
+| `component_id` | string | The component identifier in the Xray format (e.g., "gav://com.thoughtworks.xstream:xstream:1.4.5") |
+| `name`         | string | Component name                                                                                     |
+| `version`      | string | Component version                                                                                  |
 
-**workloadObj\*\*:\*\***
+**workloadObj:**
 
 | Name        | Type   | Description        |
 | ----------- | ------ | ------------------ |
