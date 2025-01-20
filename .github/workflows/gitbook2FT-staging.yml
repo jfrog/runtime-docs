@@ -25,7 +25,7 @@ jobs:
       - name: Checkout migration utility
         uses: actions/checkout@v3
         with:
-          repository: your-username/migration-utility-repo
+          repository: jfrog/Gitbook-to-FT
           token: ${{ secrets.GITHUB_TOKEN }}
           path: migration-utility
 
