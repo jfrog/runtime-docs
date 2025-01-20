@@ -25,10 +25,13 @@ jobs:
           ref: ${{ inputs.COMMIT_HASH || github.sha }}
           path: gitbook-content
 
-      - name: Manually clone the private repository using GITHUB_TOKEN
+      - name: Checkout private repository using GITHUB_TOKEN
         run: |
-          git config --global url."https://${{ secrets.GITHUB_TOKEN }}:@github.com/".insteadOf "https://github.com/"
-          git clone https://github.com/jfrog/Gitbook-to-FT.git migration-utility/
+          git config --global url."https://github.com/".insteadOf "https://github.com/"
+          git config --global credential.helper store
+          echo "https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic" > ~/.git-credentials
+          git clone https://github.com/jfrog/Gitbook-to-FT.git path/to/private-repo
+
 
       - name: Checkout migration utility
         uses: actions/checkout@v3
