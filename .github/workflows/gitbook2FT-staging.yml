@@ -28,7 +28,6 @@ jobs:
           repository: jfrog/Gitbook-to-FT
           token: ${{ secrets.GITHUB_TOKEN }}
           path: migration-utility
-          ref: main
 
       - name: Set environment variables
         env:
