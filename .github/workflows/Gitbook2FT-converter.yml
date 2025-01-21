@@ -1,0 +1,53 @@
+name: Migrate Documentation to Fluid Topics - Public repo
+
+on:
+#  push:
+#    branches:
+#      - main
+  workflow_dispatch:
+    inputs:
+      COMMIT_HASH:
+        description: 'Optional commit hash to process'
+        required: false
+
+permissions:
+  contents: read  # Ensure read access to repository contents
+  
+jobs:
+  migrate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.COMMIT_HASH || github.sha }}
+          path: gitbook-content
+
+      - name: clone Gitbook to FT
+        run: |
+          mkdir -p ./gitbook-convertor
+          git clone https://github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor
+
+      - name: Set environment variables
+        env:
+          GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
+          GITBOOK_REPO_FOLDER: ${{ secrets.GITBOOK_REPO_FOLDER }}          
+          FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
+          FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
+          FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
+          PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
+        run: echo "Environment variables set."
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run migration utility
+        run: |
+          python migration-utility/main.py
