@@ -25,10 +25,9 @@ jobs:
           ref: ${{ inputs.COMMIT_HASH || github.sha }}
           path: gitbook-content
 
-      - name: clone Gitbook to FT
+      - name: ls -l
         run: |
-          mkdir -p ./gitbook-convertor
-          git clone https://github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor
+          ls -l
 
       - name: Set environment variables
         env:
