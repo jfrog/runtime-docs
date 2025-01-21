@@ -1,4 +1,4 @@
-name: Migrate Documentation to Fluid Topics - Public repo
+name: Migrate Documentation to Fluid Topics
 
 on:
 #  push:
@@ -12,12 +12,13 @@ on:
 
 permissions:
   contents: read  # Ensure read access to repository contents
-  
+
 jobs:
   migrate-docs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -25,28 +26,35 @@ jobs:
           ref: ${{ inputs.COMMIT_HASH || github.sha }}
           path: gitbook-content
 
-      - name: ls -l
+      # Step 2: Clone Gitbook to FT
+      - name: Clone Gitbook to FT
         run: |
-          ls -l
+          mkdir -p ./gitbook-convertor
+          git clone https://github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor
 
+      # Step 3: Set environment variables
       - name: Set environment variables
         env:
           GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
-          GITBOOK_REPO_FOLDER: ${{ secrets.GITBOOK_REPO_FOLDER }}          
+          GITBOOK_REPO_FOLDER: ${{ secrets.GITBOOK_REPO_FOLDER }}
           FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
           FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
           FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
           PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
         run: echo "Environment variables set."
 
+      # Step 4: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
+      # Step 5: Install dependencies
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
+      # Step 6: Run migration utility
       - name: Run migration utility
         run: |
           python migration-utility/main.py
