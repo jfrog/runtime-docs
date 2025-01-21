@@ -54,6 +54,22 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -r Gitbook-to-FT/requirements.txt
 
+      - name: Print environment variables
+        env:
+          GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
+          GITBOOK_REPO_FOLDER: "gitbook-content"
+          FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
+          FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
+          FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
+          PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
+        run: |
+          echo "GITBOOK_REPO_URL: $GITBOOK_REPO_URL"
+          echo "GITBOOK_REPO_FOLDER: $GITBOOK_REPO_FOLDER"
+          echo "FLUID_TOPICS_API_KEY: [HIDDEN]"
+          echo "FLUID_TOPICS_BASE_URL: $FLUID_TOPICS_BASE_URL"
+          echo "FLUID_TOPICS_SOURCE_ID: $FLUID_TOPICS_SOURCE_ID"
+          echo "PUBLICATION_TITLE: $PUBLICATION_TITLE"
+          
       # Step 6: Run migration utility
       - name: Run migration utility
         run: |
