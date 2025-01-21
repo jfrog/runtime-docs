@@ -21,7 +21,9 @@ jobs:
       # Step 1: Checkout code
       - name: Checkout code
         run: |
-          git clone --no-checkout $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git
+          mkdir -p gitbook-content
+          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git gitbook-content
+          cd gitbook-content
           git fetch --depth=0
           git checkout ${{ inputs.COMMIT_HASH || github.sha }}
       
