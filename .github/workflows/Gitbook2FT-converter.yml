@@ -10,16 +10,13 @@ on:
         description: 'Optional commit hash to process'
         required: false
 
-permissions:
-  contents: read  # Ensure read access to repository contents
-
 jobs:
   migrate-docs:
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout code
-      - name: Checkout code
+      - name: Clone Gitbook content
         run: |
           mkdir -p gitbook-content
           git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git gitbook-content
@@ -27,57 +24,29 @@ jobs:
           git checkout ${{ inputs.COMMIT_HASH || github.sha }}
       
       # Step 2: Clone Gitbook to FT
-      - name: Clone Gitbook to FT
+      - name: Clone Gitbook to FT Utility
         run: |
           git clone https://github.com/jfrog/Gitbook-to-FT.git
 
-      - name: Clone Gitbook to FT
+      - name: ls -l
         run: |
           ls -l
 
-      # Step 3: Set environment variables
-      - name: Set environment variables
-        env:
-          #GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
-          GITBOOK_REPO_FOLDER: "gitbook-content"
-          FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
-          FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
-          FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
-          PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
-        run: echo "Environment variables set."
-
      # Step 4: Set up Python and install dependencies
-      - name: Install Python and dependencies
+      - name: Install Python and required dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y python3 python3-pip
           python3 -m pip install --upgrade pip
           python3 -m pip install -r Gitbook-to-FT/requirements.txt
 
-      - name: Print environment variables
-        env:
-          GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
-          GITBOOK_REPO_FOLDER: "gitbook-content"
-          FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
-          FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
-          FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
-          PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
-        run: |
-          echo "GITBOOK_REPO_URL: $GITBOOK_REPO_URL"
-          echo "GITBOOK_REPO_FOLDER: $GITBOOK_REPO_FOLDER"
-          echo "FLUID_TOPICS_API_KEY: [HIDDEN]"
-          echo "FLUID_TOPICS_BASE_URL: $FLUID_TOPICS_BASE_URL"
-          echo "FLUID_TOPICS_SOURCE_ID: $FLUID_TOPICS_SOURCE_ID"
-          echo "PUBLICATION_TITLE: $PUBLICATION_TITLE"
-          
       # Step 6: Run migration utility
       - name: Run migration utility
         env:
-          GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
           GITBOOK_REPO_FOLDER: "gitbook-content"
           FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
-          FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
-          FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
-          PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
+          FLUID_TOPICS_BASE_URL: ${{ vars.FLUID_TOPICS_BASE_URL }}
+          FLUID_TOPICS_SOURCE_ID: ${{ vars.FLUID_TOPICS_SOURCE_ID }}
+          PUBLICATION_TITLE: ${{ vars.PUBLICATION_TITLE }}
         run: |
           python Gitbook-to-FT/main.py
