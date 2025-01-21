@@ -20,17 +20,19 @@ jobs:
     steps:
       # Step 1: Checkout code
       - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ inputs.COMMIT_HASH || github.sha }}
-          path: gitbook-content
-
+        run: |
+          git clone --no-checkout $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git
+          git fetch --depth=0
+          git checkout ${{ inputs.COMMIT_HASH || github.sha }}
+      
       # Step 2: Clone Gitbook to FT
       - name: Clone Gitbook to FT
         run: |
-          mkdir -p ./gitbook-convertor
-          git clone https://github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor
+          git clone https://github.com/jfrog/Gitbook-to-FT.git
+
+      - name: Clone Gitbook to FT
+        run: |
+          ls -l
 
       # Step 3: Set environment variables
       - name: Set environment variables
