@@ -25,21 +25,10 @@ jobs:
           ref: ${{ inputs.COMMIT_HASH || github.sha }}
           path: gitbook-content
 
-      - name: Checkout private repository using GITHUB_TOKEN
+      - name: clone Gitbook to FT
         run: |
-          git config --global url."https://github.com/".insteadOf "https://github.com/"
-          git config --global credential.helper store
-          echo "https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic" > ~/.git-credentials
-          git clone https://github.com/jfrog/Gitbook-to-FT.git path/to/private-repo
-
-
-      - name: Checkout migration utility
-        uses: actions/checkout@v3
-        with:
-          repository: jfrog/Gitbook-to-FT
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: main
-          path: migration-utility
+          mkdir -p ./gitbook-convertor
+          git clone https://github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor
 
       - name: Set environment variables
         env:
