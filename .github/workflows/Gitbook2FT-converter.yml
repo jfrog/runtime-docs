@@ -24,7 +24,6 @@ jobs:
           mkdir -p gitbook-content
           git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git gitbook-content
           cd gitbook-content
-          git fetch --depth=0
           git checkout ${{ inputs.COMMIT_HASH || github.sha }}
       
       # Step 2: Clone Gitbook to FT
