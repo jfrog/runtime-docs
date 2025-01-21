@@ -28,7 +28,7 @@ jobs:
       - name: clone Gitbook to FT
         run: |
           mkdir -p ./gitbook-convertor
-          git clone https://github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor
+          git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/jfrog/Gitbook-to-FT.git ./gitbook-convertor         
 
       - name: Set environment variables
         env:
