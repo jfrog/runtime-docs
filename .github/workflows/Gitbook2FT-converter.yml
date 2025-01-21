@@ -1,14 +1,19 @@
 name: Migrate Documentation to Fluid Topics
 
 on:
-#  push:
-#    branches:
-#      - main
   workflow_dispatch:
     inputs:
       COMMIT_HASH:
         description: 'Optional commit hash to process'
         required: false
+      environment:
+        description: 'Select the environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
 
 jobs:
   migrate-docs:
@@ -22,7 +27,7 @@ jobs:
           git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git gitbook-content
           cd gitbook-content
           git checkout ${{ inputs.COMMIT_HASH || github.sha }}
-      
+
       # Step 2: Clone Gitbook to FT
       - name: Clone Gitbook to FT Utility
         run: |
@@ -32,7 +37,7 @@ jobs:
         run: |
           ls -l
 
-     # Step 4: Set up Python and install dependencies
+      # Step 4: Set up Python and install dependencies
       - name: Install Python and required dependencies
         run: |
           sudo apt-get update
@@ -40,12 +45,26 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -r Gitbook-to-FT/requirements.txt
 
+      # Step 5: Set environment variables based on selected environment
+      - name: Set environment variables
+        id: set-env-vars
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "staging" ]]; then
+            echo "Using Staging Environment"
+            echo "FLUID_TOPICS_BASE_URL=${{ vars.STAGING_FLUID_TOPICS_BASE_URL }}" >> $GITHUB_ENV
+            echo "FLUID_TOPICS_API_KEY=${{ secrets.STAGING_FLUID_TOPICS_API_KEY }}" >> $GITHUB_ENV
+          elif [[ "${{ github.event.inputs.environment }}" == "production" ]]; then
+            echo "Using Production Environment"
+            echo "FLUID_TOPICS_BASE_URL=${{ vars.PRODUCTION_FLUID_TOPICS_BASE_URL }}" >> $GITHUB_ENV
+            echo "FLUID_TOPICS_API_KEY=${{ secrets.PRODUCTION_FLUID_TOPICS_API_KEY }}" >> $GITHUB_ENV
+          fi
+
       # Step 6: Run migration utility
       - name: Run migration utility
         env:
           GITBOOK_REPO_FOLDER: "gitbook-content"
-          FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
-          FLUID_TOPICS_BASE_URL: ${{ vars.FLUID_TOPICS_BASE_URL }}
+          FLUID_TOPICS_API_KEY: ${{ env.FLUID_TOPICS_API_KEY }}
+          FLUID_TOPICS_BASE_URL: ${{ env.FLUID_TOPICS_BASE_URL }}
           FLUID_TOPICS_SOURCE_ID: ${{ vars.FLUID_TOPICS_SOURCE_ID }}
           PUBLICATION_TITLE: ${{ vars.PUBLICATION_TITLE }}
         run: |
