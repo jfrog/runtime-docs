@@ -38,8 +38,8 @@ jobs:
       # Step 3: Set environment variables
       - name: Set environment variables
         env:
-          GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
-          GITBOOK_REPO_FOLDER: ${{ secrets.GITBOOK_REPO_FOLDER }}
+          #GITBOOK_REPO_URL: ${{ secrets.GITBOOK_REPO_URL }}
+          GITBOOK_REPO_FOLDER: "gitbook-content"
           FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
           FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
           FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
@@ -52,14 +52,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3 python3-pip
           python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements.txt
-
-      # Step 5: Install dependencies
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+          python3 -m pip install -r Gitbook-to-FT/requirements.txt
 
       # Step 6: Run migration utility
       - name: Run migration utility
         run: |
-          python migration-utility/main.py
+          python Gitbook-to-FT/main.py
