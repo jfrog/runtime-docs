@@ -69,14 +69,19 @@ jobs:
             echo "FLUID_TOPICS_API_KEY=${{ secrets.PRODUCTION_FLUID_TOPICS_API_KEY }}" >> $GITHUB_ENV
           fi
 
-      # Step 6: Run migration utility
+      # Step to compute and export environment variables
+      - name: Set up environment variables
+        run: |
+          WORK_DIR="workspace_${{ github.run_id }}_${{ github.job }}_${{ github.run_number }}"
+          echo "WORK_DIR=$WORK_DIR" >> $GITHUB_ENV
+          echo "GITBOOK_REPO_FOLDER=$WORK_DIR/gitbook-content" >> $GITHUB_ENV
+
+      # Step to run the migration utility with corrected environment variables
       - name: Run migration utility
         env:
-          WORK_DIR: workspace_${{ github.run_id }}_${{ github.job }}_${{ github.run_number }}
-          GITBOOK_REPO_FOLDER: "$WORK_DIR/gitbook-content"
           FLUID_TOPICS_API_KEY: ${{ env.FLUID_TOPICS_API_KEY }}
           FLUID_TOPICS_BASE_URL: ${{ env.FLUID_TOPICS_BASE_URL }}
           FLUID_TOPICS_SOURCE_ID: ${{ vars.FLUID_TOPICS_SOURCE_ID }}
           PUBLICATION_TITLE: ${{ vars.PUBLICATION_TITLE }}
         run: |
-          python3 $WORK_DIR/Gitbook-to-FT/main.py
+          python3 ${{ env.GITBOOK_REPO_FOLDER }}/../Gitbook-to-FT/main.py
