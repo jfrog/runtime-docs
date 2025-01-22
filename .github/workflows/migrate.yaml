@@ -72,6 +72,7 @@ jobs:
       # Step 6: Run migration utility
       - name: Run migration utility
         env:
+          WORK_DIR: workspace_${{ github.run_id }}_${{ github.job }}_${{ github.run_number }}
           GITBOOK_REPO_FOLDER: "$WORK_DIR/gitbook-content"
           FLUID_TOPICS_API_KEY: ${{ env.FLUID_TOPICS_API_KEY }}
           FLUID_TOPICS_BASE_URL: ${{ env.FLUID_TOPICS_BASE_URL }}
@@ -79,5 +80,3 @@ jobs:
           PUBLICATION_TITLE: ${{ vars.PUBLICATION_TITLE }}
         run: |
           python3 $WORK_DIR/Gitbook-to-FT/main.py
-        env:
-          WORK_DIR: workspace_${{ github.run_id }}_${{ github.job }}_${{ github.run_number }}
