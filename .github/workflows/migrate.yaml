@@ -20,37 +20,39 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # Step 1: Set up a unique working directory
+      # Step 1: Set up working directory and GitBook folder paths
       - name: Set working directory
         run: |
           export WORK_DIR="workspace_${{ github.run_id }}_${{ github.job }}_${{ github.run_number }}"
+          export GITBOOK_REPO_FOLDER="$WORK_DIR/gitbook-content"
           echo "WORK_DIR=$WORK_DIR" >> $GITHUB_ENV
+          echo "GITBOOK_REPO_FOLDER=$GITBOOK_REPO_FOLDER" >> $GITHUB_ENV
 
-      # Step 2: Checkout Gitbook content
-      - name: Clone Gitbook content
+      # Step 2: Checkout GitBook content
+      - name: Clone GitBook content
         run: |
-          mkdir -p $WORK_DIR/gitbook-content
-          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git $WORK_DIR/gitbook-content
-          cd $WORK_DIR/gitbook-content
+          mkdir -p $GITBOOK_REPO_FOLDER
+          git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git $GITBOOK_REPO_FOLDER
+          cd $GITBOOK_REPO_FOLDER
           git checkout ${{ inputs.COMMIT_HASH || github.sha }}
         env:
-          WORK_DIR: ${{ env.WORK_DIR }}
+          GITBOOK_REPO_FOLDER: ${{ env.GITBOOK_REPO_FOLDER }}
 
-      # Step 3: Clone Gitbook-to-FT utility
+      # Step 3: Clone Gitbook-to-FT Utility
       - name: Clone Gitbook-to-FT Utility
         run: |
           git clone https://github.com/jfrog/Gitbook-to-FT.git $WORK_DIR/Gitbook-to-FT
         env:
           WORK_DIR: ${{ env.WORK_DIR }}
 
-      # Step 4: List working directory contents
+      # Step 4: List directory contents
       - name: List directory contents
         run: |
           ls -l $WORK_DIR
         env:
           WORK_DIR: ${{ env.WORK_DIR }}
 
-      # Step 5: Set up Python and install dependencies
+      # Step 5: Install Python and dependencies
       - name: Install Python and required dependencies
         run: |
           sudo apt-get update
@@ -74,7 +76,7 @@ jobs:
       # Step 7: Run the migration utility
       - name: Run migration utility
         env:
-          WORK_DIR: ${{ env.WORK_DIR }}
+          GITBOOK_REPO_FOLDER: ${{ env.GITBOOK_REPO_FOLDER }}
           FLUID_TOPICS_API_KEY: ${{ env.FLUID_TOPICS_API_KEY }}
           FLUID_TOPICS_BASE_URL: ${{ env.FLUID_TOPICS_BASE_URL }}
           FLUID_TOPICS_SOURCE_ID: ${{ vars.FLUID_TOPICS_SOURCE_ID }}
