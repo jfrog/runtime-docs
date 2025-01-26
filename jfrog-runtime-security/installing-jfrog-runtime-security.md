@@ -13,6 +13,14 @@ JFrog officially supports the Nginx controller. Using other ingress controllers 
 
 This guide describes installing JFrog Runtime Security on a pre-existing JFrog platform.
 
+**Before Installing**
+
+Ensure you have the:
+
+* JFrog platform `<join-key>`
+* Your organization's domain name
+* The Artifactory Kubernetes service name (which you used to [install Xray](https://jfrog.com/help/r/jfrog-installation-setup-documentation/installing-xray))
+
 #### **JFrog Charts**
 
 For the installation of the different JFrog platform components, you will need access to the JFrog Charts Repository.\
