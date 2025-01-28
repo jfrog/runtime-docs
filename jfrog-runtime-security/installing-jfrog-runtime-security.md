@@ -18,8 +18,8 @@ This guide describes installing JFrog Runtime Security on a pre-existing JFrog p
 Ensure you have the:
 
 * JFrog platform `<join-key>`
-* Your organization's domain name
-* The Artifactory Kubernetes service name (which you used to [install Xray](https://jfrog.com/help/r/jfrog-installation-setup-documentation/installing-xray))
+* JFrog platform domain name `<add-your-public-domain-here>`
+* The Artifactory Kubernetes service name (which you used to [install Xray](https://jfrog.com/help/r/jfrog-installation-setup-documentation/installing-xray)) `<artifactory-service-url>`
 
 #### **JFrog Charts**
 
