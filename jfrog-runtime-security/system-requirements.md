@@ -6,6 +6,10 @@
 | ----------- | ------- |
 | 7.77.20     | 3.104.8 |
 
+**Runtime Security Protocol Support**
+
+* Only HTTP/2 is supported
+
 #### Computing Platforms Support  <a href="#computing-platforms-support" id="computing-platforms-support"></a>
 
 | AWS                                                                                                                                | GCP                                                                                                                                | Azure                                                                                                                              | On-prem Kubernetes                                                                                                                 |
