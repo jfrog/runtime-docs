@@ -12,10 +12,10 @@
 
 #### Request body <a href="#d928slqmiyka" id="d928slqmiyka"></a>
 
-| Name       | Type   | Required/Optional | Description                                                                          |
-| ---------- | ------ | ----------------- | ------------------------------------------------------------------------------------ |
-| `limit`    | int    | Required          | Maximum number of clusters to return per request. Default is \`100\`. (Range: 1-100) |
-| `next_key` | string | Optional          | ID from the previous request, empty on the first request                             |
+| Name       | Type   | Required/Optional | Description                                                                         |
+| ---------- | ------ | ----------------- | ----------------------------------------------------------------------------------- |
+| `limit`    | int    | Optional          | Maximum number of clusters to return per request. Default is \`10\`. (Range: 1-100) |
+| `next_key` | string | Optional          | ID from the previous request, empty on the first request                            |
 
 #### Response body <a href="#id-52825iys1ugq" id="id-52825iys1ugq"></a>
 

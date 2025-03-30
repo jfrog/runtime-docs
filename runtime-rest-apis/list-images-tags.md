@@ -64,6 +64,7 @@
 | `vulnerabilities`    | Array\[vulnObj]      | An array of the vulnerabilities detected on the image tag                                         |
 | `malicious_packages` | Array\[maliciousObj] | An array of malicious packages detected on the image tag                                          |
 | `workloads`          | Array\[workloadObj]  |                                                                                                   |
+| `image_digest`       | string               | Represents the cryptographic hash (SHA256) of the image, which includes image content.            |
 
 **scanInfoObj\*\*:\*\***
 

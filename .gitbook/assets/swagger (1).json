@@ -1,0 +1,242 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the Swagger documentation for the Xray API.",
+        "title": "Xray Swagger API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/xray",
+    "paths": {
+        "/api/v1/artifact/status": {
+            "post": {
+                "description": "Artifact scan status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "external-api-test"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The auth token of the logged-in user",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Artifact properties",
+                        "name": "scan_artifact",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ArtifactScanStatusRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Artifact scan status",
+                        "schema": {
+                            "$ref": "#/definitions/model.ScanStatusRecord"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to parse Request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.FeedBackMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Artifact is not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.FeedBackMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.FeedBackMessage"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.ArtifactScanStatusRequest": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "repo": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ContextualAnalysisStatusResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ExposuresStatusResponse": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "$ref": "#/definitions/pgtype.JSONB"
+                },
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ScaStatusResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ScanStatusRecord": {
+            "type": "object",
+            "properties": {
+                "details": {
+                    "$ref": "#/definitions/model.ServicesDetails"
+                },
+                "overall": {
+                    "$ref": "#/definitions/model.StatusSourceInfoResponse"
+                }
+            }
+        },
+        "model.ServicesDetails": {
+            "type": "object",
+            "properties": {
+                "contextual_analysis": {
+                    "$ref": "#/definitions/model.ContextualAnalysisStatusResponse"
+                },
+                "exposures": {
+                    "$ref": "#/definitions/model.ExposuresStatusResponse"
+                },
+                "sca": {
+                    "$ref": "#/definitions/model.ScaStatusResponse"
+                },
+                "violations": {
+                    "$ref": "#/definitions/model.ViolationsStatusResponse"
+                }
+            }
+        },
+        "model.StatusSourceInfoResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ViolationsStatusResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "pgtype.JSONB": {
+            "type": "object",
+            "properties": {
+                "bytes": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.ErrorMsg": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "param_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.FeedBackMessage": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/routes.ErrorMsg"
+                    }
+                },
+                "info": {
+                    "type": "string"
+                },
+                "warn": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "\u003cbasic\u003e": {
+            "type": "basic"
+        },
+        "\u003ctoken\u003e": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

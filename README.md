@@ -10,3 +10,15 @@ The threat funnel is a process that helps security professionals manage the floo
 
 The diagram above illustrates the threat funnel process. The process starts with all artifacts stored in Artifactory and becomes narrower as the artifacts pass through Xray, JFrog Advanced Security, and Runtime Security. The goal is to reduce the volume of security events or the number of events that require manual intervention, enabling security teams to focus on the most critical security issues. By combining information from multiple security solutions, such as Xray, JFrog Advanced Security, and JFrog Runtime, security teams can more effectively identify and address security vulnerabilities. The overall objective is to improve the organization's security posture by enabling security teams to quickly and accurately respond to security incidents and reduce the risk of security breaches.
 
+test
+
+
+
+
+
+{% openapi src=".gitbook/assets/swagger (1).json" path="/api/v1/artifact/status" method="post" %}
+[swagger (1).json](<.gitbook/assets/swagger (1).json>)
+{% endopenapi %}
+
+
+
